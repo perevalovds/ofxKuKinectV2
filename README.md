@@ -1,12 +1,12 @@
 ofxKuKinectV2
 =============
 
-An Kuflex's addon for the Kinect V2 sensor. 
+An Kuflex's openFrameworks addon for the Kinect V2 sensor.
 It's fork of original ofxKinectV2 addon https://github.com/ofTheo/ofxKinectV2 by Theo Watson,
 which is based on the excellent work by the https://github.com/OpenKinect/libfreenect2 team (@JoshBlake @floe and @christiankerl plus others) 
 
 We made this fork to have addon tuned for our (Kuflex) purposes:
-- Easy install and work in Windows
+- Easy install and work in Windows, openFrameworks 0.9.x, Visual Studio 2015
 - Allows to disable RGB capture
 - Allows to get point cloud
 - Uses OpenGL based decoding by default
@@ -37,5 +37,10 @@ This steps set up libusbK driver for plugged Kinect V2 device.
 You need to repeat them for each connected device to work with addon.
 
 That's all, now you could use addon and apps made using it.
+
+## Using addon (Windows)
+1. Create a new project using Project Generator.
+2. Copy a file from 'copy_to_bin' folder to 'bin' folder of your project.
+
 
 Engoy. For any questions contact us: kukuflex@gmail.com
