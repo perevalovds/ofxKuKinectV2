@@ -23,16 +23,15 @@ void ofApp::setup(){
     texDepth.resize(kinects.size());
     texRGB.resize(kinects.size());
         
-    panel.setup("", "settings.xml", 10, 100);
+    //panel.setup("", "settings.xml", 10, 100);
     
     //Note you don't have to use ofxKinectV2 as a shared pointer, but if you want to have it in a vector ( ie: for multuple ) it needs to be.
     for(int d = 0; d < kinects.size(); d++){
         kinects[d] = shared_ptr <ofxKinectV2> (new ofxKinectV2());
         kinects[d]->open(deviceList[d].serial);
-        panel.add(kinects[d]->params);
+//        panel.add(kinects[d]->params);
     }
 
-    panel.loadFromFile("settings.xml");
 
 }
 
@@ -62,7 +61,7 @@ void ofApp::draw(){
         texRGB[d].draw(210 + texDepth[d].getWidth(), shiftY, dwHD, dhHD);
     }
     
-    panel.draw();
+  //  panel.draw();
 }
 
 //--------------------------------------------------------------

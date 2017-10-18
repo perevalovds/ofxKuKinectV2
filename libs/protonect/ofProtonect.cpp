@@ -54,8 +54,8 @@ ofProtonect::ofProtonect(){
 int ofProtonect::openKinect(string serial){
           
 //      pipeline = new libfreenect2::CpuPacketPipeline();
-//        pipeline = new libfreenect2::OpenGLPacketPipeline();
-        pipeline = new libfreenect2::OpenCLPacketPipeline();
+        pipeline = new libfreenect2::OpenGLPacketPipeline();
+//        pipeline = new libfreenect2::OpenCLPacketPipeline();
 
       if(pipeline)
       {
