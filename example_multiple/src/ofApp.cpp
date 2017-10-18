@@ -1,11 +1,5 @@
 #include "ofApp.h"
 
-//NOTE: if you are unable to connect to your device on OS X, try unplugging and replugging in the power, while leaving the USB connected.
-//ofxKinectV2 will only work if the NUI Sensor shows up in the Superspeed category of the System Profiler in the USB section.
-
-//On OS X if you are not using the example project. Make sure to add OpenCL.framework to the Link Binary With Library Build Phase 
-//and change the line in Project.xcconfig to OTHER_LDFLAGS = $(OF_CORE_LIBS) $(OF_CORE_FRAMEWORKS) -framework OpenCL
-
 //--------------------------------------------------------------
 void ofApp::setup(){
     
@@ -49,8 +43,6 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-    ofDrawBitmapString("ofxKinectV2: Work in progress addon.\nBased on the excellent work by the OpenKinect libfreenect2 team\n\n-Requires USB 3.0 port ( superspeed )\n-Requires patched libusb. If you have the libusb from ofxKinect ( v1 ) linked to your project it will prevent superspeed on Kinect V2", 10, 14);
-
     for(int d = 0; d < kinects.size(); d++){
         float dwHD = 1920/4;
         float dhHD = 1080/4;
@@ -60,8 +52,6 @@ void ofApp::draw(){
         texDepth[d].draw(200, shiftY);
         texRGB[d].draw(210 + texDepth[d].getWidth(), shiftY, dwHD, dhHD);
     }
-    
-  //  panel.draw();
 }
 
 //--------------------------------------------------------------
