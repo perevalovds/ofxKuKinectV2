@@ -16,8 +16,10 @@ Notes:
 - Requires a USB 3 port on machine. 
 
 
-## Install driver for Kinect (in Windows)
-(This instructions are adopted from the guide at https://github.com/OpenKinect/libfreenect2)
+## Install driver for Kinect V2 (in Windows)
+Our primary goal it to flawlessly use Kinect V2 in Windows. So we explain in details how to install driver in Windows.
+This instructions are adopted from the guide at https://github.com/OpenKinect/libfreenect2, please consult it for more details on other OS,
+as well as original addon's instructions https://github.com/ofTheo/ofxKinectV2.
 
 For using a Kinect using this addon in Windows, you need set up the appropriate driver for each Kinect device 
 by follow this steps 
