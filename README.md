@@ -15,3 +15,25 @@ We made this fork to have addon tuned for our (Kuflex) purposes:
 Notes:
 - Requires a USB 3 port on machine. 
 
+
+## Install driver for Kinect (in Windows)
+(This instructions are adopted from the guide at https://github.com/OpenKinect/libfreenect2)
+
+For using a Kinect using this addon in Windows, you need set up the appropriate driver for each Kinect device 
+by follow this steps 
+
+1. Plug-in Kinect V2.
+2. Run zadig-2.3.exe (located in install_win folder)
+3. Check menu's checkbox Options -> List All Devices
+4. Uncheck menu's checkbox Options -> Ignore Hubs or Composite Parents
+5. Select in main window's list of USB devices "Xbox NUI Sensor (Composite Parent)"
+6. Select in the list above "Install Driver / Replace Driver" driver "libusbK (v.3.0.7.0)"
+7. Click the button "Replace Driver / Install Driver". (Sometimes we need to do it twice, at first Install the Replace)
+
+This steps set up libusbK driver for plugged Kinect V2 device.
+
+You need to repeat them for each connected device to work with addon.
+
+That's all, now you could use addon and apps made using it.
+
+Engoy. For any questions contact us: kukuflex@gmail.com
