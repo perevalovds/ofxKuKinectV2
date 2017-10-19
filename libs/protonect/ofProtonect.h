@@ -17,15 +17,31 @@
 #include "ofAppGLFWWindow.h"
 #include "ofAppRunner.h"
 
+struct KinectV2Settings {
+	bool depth;
+	bool rgb;
+	bool register_depth_rgb;	//sync RGB and Depth images
+	bool pipe_gl;		//use GL pipe. If false, uses CPU - caution, very slow frame rate
+	KinectV2Settings() {
+		depth = true;
+		rgb = true;
+		register_depth_rgb = depth && rgb;
+		pipe_gl = true;
+	}
+	KinectV2Settings(bool depth0, bool rgb0, bool regist, bool pipe_gl0) {
+		depth = depth0; 
+		rgb = rgb0; 
+		register_depth_rgb = regist && depth && rgb; 
+		pipe_gl = pipe_gl0;
+	}
+};
+
+
 class ofProtonect{
-
     public:
-
-
-    
         ofProtonect();
     
-        int openKinect(std::string serialNo);
+        int openKinect(std::string serialNo, KinectV2Settings settings = KinectV2Settings());
         void updateKinect(ofPixels & rgbPixels, ofFloatPixels & depthPixels);
         int closeKinect();
     

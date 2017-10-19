@@ -51,10 +51,10 @@ ofProtonect::ofProtonect(){
     }
 }
 
-int ofProtonect::openKinect(string serial){
+int ofProtonect::openKinect(string serial, KinectV2Settings settings){
           
-//      pipeline = new libfreenect2::CpuPacketPipeline();
-        pipeline = new libfreenect2::OpenGLPacketPipeline();
+	if (settings.pipe_gl) pipeline = new libfreenect2::OpenGLPacketPipeline();
+	else pipeline = new libfreenect2::CpuPacketPipeline();
 //        pipeline = new libfreenect2::OpenCLPacketPipeline();
 
       if(pipeline)
