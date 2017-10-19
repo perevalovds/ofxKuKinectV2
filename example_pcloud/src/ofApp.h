@@ -23,5 +23,6 @@ class ofApp : public ofBaseApp{
         vector < shared_ptr<ofxKuKinectV2> > kinects;
     
         vector <ofTexture> texDepth;
-        vector <ofTexture> texRGB;
+		vector< vector<ofPoint> > pcloud;
+		ofEasyCam cam;
 };

@@ -15,15 +15,14 @@ void ofApp::setup(){
     //allocate for this many devices
     kinects.resize(deviceList.size());
     texDepth.resize(kinects.size());
-    texRGB.resize(kinects.size());
+	pcloud.resize(kinects.size());
         
-    //panel.setup("", "settings.xml", 10, 100);
-    
     //Note you don't have to use ofxKuKinectV2 as a shared pointer, but if you want to have it in a vector ( ie: for multuple ) it needs to be.
     for(int d = 0; d < kinects.size(); d++){
+		KinectV2Settings settings;
+		//settings.rgb = false;	//doesn't works, // TODO
         kinects[d] = shared_ptr <ofxKuKinectV2> (new ofxKuKinectV2());
-        kinects[d]->open(deviceList[d].serial);
-//        panel.add(kinects[d]->params);
+        kinects[d]->open(deviceList[d].serial, settings);
     }
 
 
@@ -34,24 +33,39 @@ void ofApp::update(){
 
     for(int d = 0; d < kinects.size(); d++){
         kinects[d]->update();
-        if( kinects[d]->isFrameNew() ){
+		if( kinects[d]->isFrameNew() ) {
             texDepth[d].loadData( kinects[d]->getDepthPixels() );
-            texRGB[d].loadData( kinects[d]->getRgbPixels() );
+			pcloud[d] = kinects[d]->getPointCloud();			
         }
-    }
+	}
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
     for(int d = 0; d < kinects.size(); d++){
-        float dwHD = 1920/4;
-        float dhHD = 1080/4;
-        
-        float shiftY = 100 + ((10 + texDepth[d].getHeight()) * d);
-    
-        texDepth[d].draw(200, shiftY);
-        texRGB[d].draw(210 + texDepth[d].getWidth(), shiftY, dwHD, dhHD);
+		ofTexture &tex = texDepth[d];
+        float shiftY = 40 + ((10 + tex.getHeight()/2) * d);
+		ofSetColor(255);
+		texDepth[d].draw(10, shiftY, tex.getWidth() / 2, tex.getHeight() / 2);
     }
+	cam.begin();
+	for (int d = 0; d < kinects.size(); d++) {
+		ofMesh mesh;
+		mesh.addVertices(pcloud[d]);
+		ofPushMatrix();
+		ofSetColor(255);
+		if (d == 0) ofSetColor(255, 255, 0);
+		if (d == 1) ofSetColor(255, 0, 255);
+		if (d == 2) ofSetColor(0, 255, 255);
+		if (d == 3) ofSetColor(0, 255, 0);
+		ofScale(-1, 1, -1);
+		ofScale(0.2, 0.2, 0.2);
+		ofTranslate(0, 0, -2000);
+		mesh.drawVertices();
+		ofPopMatrix();
+	}
+	cam.end();
+	ofDrawBitmapStringHighlight("FPS " + ofToString(ofGetFrameRate()), 10, 20);
 }
 
 //--------------------------------------------------------------

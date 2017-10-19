@@ -48,7 +48,23 @@ class ofProtonect{
         libfreenect2::Freenect2 & getFreenect2Instance(){
             return freenect2;
         }
+
+		const static int depth_w = 512;
+		const static int depth_h = 424;
+
+		libfreenect2::Freenect2Device::ColorCameraParams getColorCameraParams() {
+			//Based on https://github.com/hanasaan/ofxMultiKinectV2
+			if (dev) return dev->getColorCameraParams();
+			return libfreenect2::Freenect2Device::ColorCameraParams(); 
+		}
+
+		libfreenect2::Freenect2Device::IrCameraParams getIrCameraParams() {
+			//Based on https://github.com/hanasaan/ofxMultiKinectV2
+			if (dev) return dev->getIrCameraParams(); 
+			return libfreenect2::Freenect2Device::IrCameraParams();			
+		}
   
+		const KinectV2Settings &settings() { return settings_; }
     protected:
   
         bool bOpened;
@@ -66,4 +82,5 @@ class ofProtonect{
         libfreenect2::Frame  * registered = NULL;
         libfreenect2::Frame  * bigFrame = NULL;
 
+		KinectV2Settings settings_;
 };

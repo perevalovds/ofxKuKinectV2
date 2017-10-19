@@ -2,15 +2,20 @@ ofxKuKinectV2
 =============
 
 An Kuflex's openFrameworks addon for the Kinect V2 sensor.
-It's fork of original ofxKinectV2 addon https://github.com/ofTheo/ofxKinectV2 by Theo Watson,
-which is based on the excellent work by the https://github.com/OpenKinect/libfreenect2 team (@JoshBlake @floe and @christiankerl plus others) 
+* It's fork of original ofxKinectV2 addon https://github.com/ofTheo/ofxKinectV2 by Theo Watson,
+* which is based on the excellent work by the https://github.com/OpenKinect/libfreenect2 team (@JoshBlake @floe and @christiankerl plus others),
+* also, we get getWorldCoordinateAt functions from ofxMultiKinectV2 by hanasaan https://github.com/hanasaan/ofxMultiKinectV2
 
-We made this fork to have addon tuned for our (Kuflex) purposes:
+
+We made this addon to have addon tuned for our (Kuflex) purposes:
 - Easy install and work in Windows, openFrameworks 0.9.x, Visual Studio 2015
 - Allows to disable RGB capture
 - Allows to get point cloud
 - Uses OpenGL based decoding by default
 - Supports multiple kinects. 
+
+![example_pcloud](https://github.com/kuflex/ofxKuKinectV2/raw/master/docs/example_pointcloud.PNG "example_pcloud example")
+
 
 Notes:
 - Requires a USB 3 port on machine. 
@@ -44,3 +49,9 @@ That's all, now you could use addon and apps made using it.
 3. Open the project in Visual Studio IDE, and change  "Debug" to "Release", "Win32" to "x64" compiling options.
 
 Enjoy. For any questions contact us: kukuflex@gmail.com
+
+###TODO
+- Fix error that setting KinectV2Settings settings.rgb=false leads to crash in ofProtonect::updateKinect, listener->waitForNewFrame(frames);
+- Implement RGB - Depth registration (i.e. geometrical synchronization)
+- Output IR image
+- Optionally colorize point cloud
