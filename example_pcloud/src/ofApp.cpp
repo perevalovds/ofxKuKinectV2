@@ -19,16 +19,11 @@ void ofApp::setup(){
         
     //panel.setup("", "settings.xml", 10, 100);
     
-    //Note you don't have to use ofxKinectV2 as a shared pointer, but if you want to have it in a vector ( ie: for multiple ) it needs to be.
+    //Note you don't have to use ofxKuKinectV2 as a shared pointer, but if you want to have it in a vector ( ie: for multuple ) it needs to be.
     for(int d = 0; d < kinects.size(); d++){
         kinects[d] = shared_ptr <ofxKuKinectV2> (new ofxKuKinectV2());
-
-		KinectV2Settings settings;
-		settings.depth = true;
-		settings.rgb = true;
-		settings.register_depth_rgb = true;
-		settings.pipe_gl = true;
-        kinects[d]->open(deviceList[d].serial, settings);
+        kinects[d]->open(deviceList[d].serial);
+//        panel.add(kinects[d]->params);
     }
 
 
@@ -40,9 +35,7 @@ void ofApp::update(){
     for(int d = 0; d < kinects.size(); d++){
         kinects[d]->update();
         if( kinects[d]->isFrameNew() ){
-			float mindist = 500;
-			float maxdist = 6000;
-            texDepth[d].loadData( kinects[d]->getDepthPixels(mindist, maxdist) );
+            texDepth[d].loadData( kinects[d]->getDepthPixels() );
             texRGB[d].loadData( kinects[d]->getRgbPixels() );
         }
     }
@@ -54,7 +47,7 @@ void ofApp::draw(){
         float dwHD = 1920/4;
         float dhHD = 1080/4;
         
-        float shiftY = 50 + ((10 + texDepth[d].getHeight()) * d);
+        float shiftY = 100 + ((10 + texDepth[d].getHeight()) * d);
     
         texDepth[d].draw(200, shiftY);
         texRGB[d].draw(210 + texDepth[d].getWidth(), shiftY, dwHD, dhHD);
