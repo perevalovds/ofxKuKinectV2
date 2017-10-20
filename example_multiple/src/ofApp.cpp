@@ -59,6 +59,11 @@ void ofApp::draw(){
         texDepth[d].draw(200, shiftY);
         texRGB[d].draw(210 + texDepth[d].getWidth(), shiftY, dwHD, dhHD);
     }
+	string fps = "App FPS: " + ofToString(ofGetFrameRate(), 0) + ",    Kinects FPS:";
+	for (int d = 0; d < kinects.size(); d++) {
+		fps += " " + ofToString(kinects[d]->fps(), 0);
+	}
+	ofDrawBitmapStringHighlight(fps, 10, 20);
 }
 
 //--------------------------------------------------------------

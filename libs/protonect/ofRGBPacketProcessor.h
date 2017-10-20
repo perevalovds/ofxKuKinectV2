@@ -17,7 +17,7 @@ namespace libfreenect2{
 class ofRGBPacketProcessor : public RgbPacketProcessor{
 
     public:
-        ofRGBPacketProcessor();
+        ofRGBPacketProcessor(bool active = true);
         ~ofRGBPacketProcessor();
     
          void process(const libfreenect2::RgbPacket &packet);
@@ -26,6 +26,7 @@ class ofRGBPacketProcessor : public RgbPacketProcessor{
         void newFrame();
         Frame *frame;
         ofPixels pix; 
+		bool active_;
 
 };
 

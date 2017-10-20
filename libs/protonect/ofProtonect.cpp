@@ -54,9 +54,10 @@ ofProtonect::ofProtonect() {
 
 int ofProtonect::openKinect(string serial, KinectV2Settings settings) {
 	settings_ = settings;
+	settings.rgb = true;	//TODO fix it!! currently false leads to crash
 
-	if (settings_.pipe_gl) pipeline = new libfreenect2::OpenGLPacketPipeline();
-	else pipeline = new libfreenect2::CpuPacketPipeline();
+	if (settings_.pipe_gl) pipeline = new libfreenect2::OpenGLPacketPipeline(0, false, settings_.rgb);
+	else pipeline = new libfreenect2::CpuPacketPipeline(settings_.rgb);
 	//        pipeline = new libfreenect2::OpenCLPacketPipeline();
 
 	if (pipeline) {
@@ -68,10 +69,10 @@ int ofProtonect::openKinect(string serial, KinectV2Settings settings) {
 		return -1;
 	}
 	
-	unsigned int frame_type = (settings_.rgb) * libfreenect2::Frame::Color
-		+ (settings_.depth) * (libfreenect2::Frame::Ir | libfreenect2::Frame::Depth);	
+	unsigned int frame_type = (settings.rgb) * libfreenect2::Frame::Color
+		+ (settings.depth) * (libfreenect2::Frame::Ir | libfreenect2::Frame::Depth);	
 	listener = new libfreenect2::SyncMultiFrameListener(frame_type);
-	if (settings_.register_depth_rgb) {
+	if (settings.register_depth_rgb) {
 		undistorted = new libfreenect2::Frame(depth_w, depth_h, 4);
 		registered = new libfreenect2::Frame(depth_w, depth_h, 4);
 	}
@@ -80,10 +81,10 @@ int ofProtonect::openKinect(string serial, KinectV2Settings settings) {
 		registered = 0;
 	}
 
-	if (settings_.rgb) {
+	if (settings.rgb) {
 		dev->setColorFrameListener(listener);
 	}
-	if (settings_.depth) {
+	if (settings.depth) {
 		dev->setIrAndDepthFrameListener(listener);
 	}
 	dev->start();
@@ -91,7 +92,7 @@ int ofProtonect::openKinect(string serial, KinectV2Settings settings) {
 	ofLogVerbose("ofProtonect::openKinect") << "device serial: " << dev->getSerialNumber();
 	ofLogVerbose("ofProtonect::openKinect") << "device firmware: " << dev->getFirmwareVersion();
 
-	if (settings_.register_depth_rgb) {
+	if (settings.register_depth_rgb) {
 		registration = new libfreenect2::Registration(dev->getIrCameraParams(), dev->getColorCameraParams());
 	}
 

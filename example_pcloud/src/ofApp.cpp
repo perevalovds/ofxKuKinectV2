@@ -20,7 +20,7 @@ void ofApp::setup(){
     //Note you don't have to use ofxKuKinectV2 as a shared pointer, but if you want to have it in a vector ( ie: for multuple ) it needs to be.
     for(int d = 0; d < kinects.size(); d++){
 		KinectV2Settings settings;
-		//settings.rgb = false;	//doesn't works, // TODO
+		settings.rgb = false;	
         kinects[d] = shared_ptr <ofxKuKinectV2> (new ofxKuKinectV2());
         kinects[d]->open(deviceList[d].serial, settings);
     }
@@ -41,13 +41,13 @@ void ofApp::update(){
 }
 
 //--------------------------------------------------------------
-void ofApp::draw(){
-    for(int d = 0; d < kinects.size(); d++){
+void ofApp::draw() {
+	for (int d = 0; d < kinects.size(); d++) {
 		ofTexture &tex = texDepth[d];
-        float shiftY = 40 + ((10 + tex.getHeight()/2) * d);
+		float shiftY = 40 + ((10 + tex.getHeight() / 2) * d);
 		ofSetColor(255);
 		texDepth[d].draw(10, shiftY, tex.getWidth() / 2, tex.getHeight() / 2);
-    }
+	}
 	cam.begin();
 	for (int d = 0; d < kinects.size(); d++) {
 		ofMesh mesh;
@@ -65,7 +65,11 @@ void ofApp::draw(){
 		ofPopMatrix();
 	}
 	cam.end();
-	ofDrawBitmapStringHighlight("FPS " + ofToString(ofGetFrameRate()), 10, 20);
+	string fps = "App FPS: " + ofToString(ofGetFrameRate(),0) + ",    Kinects FPS:";
+	for (int d = 0; d < kinects.size(); d++) {
+		fps += " " + ofToString(kinects[d]->fps(), 0);
+	}
+	ofDrawBitmapStringHighlight(fps, 10, 20);
 }
 
 //--------------------------------------------------------------

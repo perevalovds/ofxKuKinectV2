@@ -52,6 +52,7 @@ Enjoy. For any questions contact us: kukuflex@gmail.com
 
 ###TODO
 - Fix error that setting KinectV2Settings settings.rgb=false leads to crash in ofProtonect::updateKinect, listener->waitForNewFrame(frames);
+   now we don't decode JPEGs, but anyway in poor lighting Kinect's fps falls from 30 to 15. So we need to disable RGB completely if we don't need them.
 - Implement RGB - Depth registration (i.e. geometrical synchronization)
 - Output IR image
 - Optionally colorize point cloud

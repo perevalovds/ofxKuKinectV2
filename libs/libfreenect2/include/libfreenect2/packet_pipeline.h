@@ -67,7 +67,7 @@ protected:
   DepthPacketProcessor *depth_processor_;
   BaseDepthPacketProcessor *async_depth_processor_;
 
-  virtual void initialize();
+  virtual void initialize(bool rgb_active);
   virtual DepthPacketProcessor *createDepthPacketProcessor() = 0;
 public:
   virtual ~BasePacketPipeline();
@@ -85,7 +85,7 @@ class  CpuPacketPipeline : public BasePacketPipeline
 protected:
   virtual DepthPacketProcessor *createDepthPacketProcessor();
 public:
-  CpuPacketPipeline();
+  CpuPacketPipeline(bool rgb_active = true);
   virtual ~CpuPacketPipeline();
 };
 
@@ -98,7 +98,7 @@ protected:
   bool debug_;
   virtual DepthPacketProcessor *createDepthPacketProcessor();
 public:
-  OpenGLPacketPipeline(void *parent_opengl_context = 0, bool debug = false);
+  OpenGLPacketPipeline(void *parent_opengl_context = 0, bool debug = false, bool rgb_active = true);
   virtual ~OpenGLPacketPipeline();
 };
 #endif // LIBFREENECT2_WITH_OPENGL_SUPPORT

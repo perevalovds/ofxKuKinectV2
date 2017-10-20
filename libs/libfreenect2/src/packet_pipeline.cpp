@@ -40,12 +40,12 @@ PacketPipeline::~PacketPipeline()
 {
 }
 
-void BasePacketPipeline::initialize()
+void BasePacketPipeline::initialize(bool rgb_active)
 {
   rgb_parser_ = new RgbPacketStreamParser();
   depth_parser_ = new DepthPacketStreamParser();
 
-  rgb_processor_ = new ofRGBPacketProcessor();
+  rgb_processor_ = new ofRGBPacketProcessor(rgb_active);
   depth_processor_ = createDepthPacketProcessor();
 
   async_rgb_processor_ = new AsyncPacketProcessor<RgbPacket>(rgb_processor_);
@@ -85,9 +85,9 @@ DepthPacketProcessor *BasePacketPipeline::getDepthPacketProcessor() const
   return depth_processor_;
 }
 
-CpuPacketPipeline::CpuPacketPipeline()
+CpuPacketPipeline::CpuPacketPipeline(bool rgb_active)
 { 
-  initialize();
+  initialize(rgb_active);
 }
 
 CpuPacketPipeline::~CpuPacketPipeline() { }
@@ -100,9 +100,9 @@ DepthPacketProcessor *CpuPacketPipeline::createDepthPacketProcessor()
 }
 
 #ifdef LIBFREENECT2_WITH_OPENGL_SUPPORT
-OpenGLPacketPipeline::OpenGLPacketPipeline(void *parent_opengl_context, bool debug) : parent_opengl_context_(parent_opengl_context), debug_(debug)
+OpenGLPacketPipeline::OpenGLPacketPipeline(void *parent_opengl_context, bool debug, bool rgb_active) : parent_opengl_context_(parent_opengl_context), debug_(debug)
 { 
-  initialize();
+  initialize(rgb_active);
 }
 
 OpenGLPacketPipeline::~OpenGLPacketPipeline() { }
