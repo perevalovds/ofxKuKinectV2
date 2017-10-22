@@ -37,13 +37,13 @@ class ofxKuKinectV2 : public ofThread{
         bool isFrameNew();
     
         ofPixels getDepthPixels(float mindist=500, float maxdist=6000);
-        ofPixels getRgbPixels();
-        ofFloatPixels getRawDepthPixels();
+        ofPixels &getRgbPixels();
+        ofFloatPixels &getRawDepthPixels();
 
 		static const int depth_w = ofProtonect::depth_w;
 		static const int depth_h = ofProtonect::depth_h;
     
-		ofProtonect& getProtonect() { return protonect; }
+		ofProtonect &getProtonect() { return protonect; }
 
 		float getDistanceAt(int x, int y);
 		ofVec3f getWorldCoordinateAt(int x, int y);
