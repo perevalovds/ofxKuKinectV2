@@ -163,12 +163,12 @@ ofPixels ofxKuKinectV2::getDepthPixels(float mindist, float maxdist){
 }
 
 //--------------------------------------------------------------------------------
-ofFloatPixels ofxKuKinectV2::getRawDepthPixels(){
+ofFloatPixels &ofxKuKinectV2::getRawDepthPixels(){
     return rawDepthPixels;
 }
 
 //--------------------------------------------------------------------------------
-ofPixels ofxKuKinectV2::getRgbPixels(){
+ofPixels &ofxKuKinectV2::getRgbPixels(){
     return rgbPix; 
 }
 

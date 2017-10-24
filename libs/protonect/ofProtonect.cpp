@@ -54,10 +54,9 @@ ofProtonect::ofProtonect() {
 
 int ofProtonect::openKinect(string serial, KinectV2Settings settings) {
 	settings_ = settings;
-	settings.rgb = true;	//TODO fix it!! currently false leads to crash
 
-	if (settings_.pipe_gl) pipeline = new libfreenect2::OpenGLPacketPipeline(0, false, settings_.rgb);
-	else pipeline = new libfreenect2::CpuPacketPipeline(settings_.rgb);
+	if (settings_.pipe_gl) pipeline = new libfreenect2::OpenGLPacketPipeline(0, false);// , settings_.rgb);
+	else pipeline = new libfreenect2::CpuPacketPipeline(); // settings_.rgb);
 	//        pipeline = new libfreenect2::OpenCLPacketPipeline();
 
 	if (pipeline) {
@@ -69,32 +68,37 @@ int ofProtonect::openKinect(string serial, KinectV2Settings settings) {
 		return -1;
 	}
 	
-	unsigned int frame_type = (settings.rgb) * libfreenect2::Frame::Color
-		+ (settings.depth) * (libfreenect2::Frame::Ir | libfreenect2::Frame::Depth);	
-	listener = new libfreenect2::SyncMultiFrameListener(frame_type);
-	if (settings.register_depth_rgb) {
-		undistorted = new libfreenect2::Frame(depth_w, depth_h, 4);
-		registered = new libfreenect2::Frame(depth_w, depth_h, 4);
+
+	int types = 0;
+	if (settings.rgb) types |= libfreenect2::Frame::Color;
+	if (settings.depth) types |= libfreenect2::Frame::Ir | libfreenect2::Frame::Depth;
+
+	listener = new libfreenect2::SyncMultiFrameListener(types);
+
+	dev->setColorFrameListener(listener);
+	dev->setIrAndDepthFrameListener(listener);
+
+	if (settings.rgb && settings.depth)
+	{
+		if (!dev->start())
+			return -1;
 	}
-	else {
-		undistorted = 0;
-		registered = 0;
+	else
+	{
+		if (!dev->startStreams(settings.rgb, settings.depth))
+			return -1;
 	}
 
-	if (settings.rgb) {
-		dev->setColorFrameListener(listener);
-	}
-	if (settings.depth) {
-		dev->setIrAndDepthFrameListener(listener);
-	}
-	dev->start();
 
 	ofLogVerbose("ofProtonect::openKinect") << "device serial: " << dev->getSerialNumber();
 	ofLogVerbose("ofProtonect::openKinect") << "device firmware: " << dev->getFirmwareVersion();
 
-	if (settings.register_depth_rgb) {
-		registration = new libfreenect2::Registration(dev->getIrCameraParams(), dev->getColorCameraParams());
-	}
+	/// [registration setup]
+	libfreenect2::Registration* registration = new libfreenect2::Registration(dev->getIrCameraParams(), dev->getColorCameraParams());
+	undistorted = new libfreenect2::Frame(depth_w, depth_h, 4);
+	registered = new libfreenect2::Frame(depth_w, depth_h, 4);
+
+	/// [registration setup]
 
 	bOpened = true;
 
