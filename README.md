@@ -9,7 +9,6 @@ An Kuflex's openFrameworks addon for the Kinect V2 sensor.
 
 We made this addon to have addon tuned for our (Kuflex) purposes:
 - Easy install and work in Windows, openFrameworks 0.9.x, Visual Studio 2015
-- Allows to disable RGB capture
 - Allows to get point cloud
 - Uses OpenGL based decoding by default
 - Supports multiple kinects. 
@@ -51,8 +50,7 @@ That's all, now you could use addon and apps made using it.
 Enjoy. For any questions contact us: kukuflex@gmail.com
 
 ### TODO
-- Fix error that setting KinectV2Settings settings.rgb=false leads to crash in ofProtonect::updateKinect, listener->waitForNewFrame(frames);
-   now we don't decode JPEGs, but anyway in poor lighting Kinect's fps falls from 30 to 15. So we need to disable RGB completely if we don't need them.
+- FIX RGB decoder - now it works erroneously, so addon works only for point clouds.
 - Implement RGB - Depth registration (i.e. geometrical synchronization)
 - Output IR image
 - Optionally colorize point cloud
