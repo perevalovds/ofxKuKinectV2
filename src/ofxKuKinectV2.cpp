@@ -168,6 +168,21 @@ ofFloatPixels &ofxKuKinectV2::getRawDepthPixels(){
 }
 
 //--------------------------------------------------------------------------------
+ofShortPixels &ofxKuKinectV2::getShortDepthPixels() { 	//loss of precision, consumes CPU power
+	if (rawDepthPixels.getWidth() == depth_w && rawDepthPixels.getHeight() == depth_h) {
+		if (shortDepthPixels.getWidth() != depth_w || shortDepthPixels.getHeight() != depth_h) {
+			shortDepthPixels.allocate(depth_w, depth_h, 1);
+		}
+		float *data_f = rawDepthPixels.getData();
+		unsigned short *data_int = shortDepthPixels.getData();
+		for (int i = 0; i < depth_w * depth_h; i++) {
+			data_int[i] = data_f[i];
+		}
+	}
+	return shortDepthPixels;
+}
+
+//--------------------------------------------------------------------------------
 ofPixels &ofxKuKinectV2::getRgbPixels(){
     return rgbPix; 
 }

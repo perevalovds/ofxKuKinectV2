@@ -39,6 +39,7 @@ class ofxKuKinectV2 : public ofThread{
         ofPixels getDepthPixels(float mindist=500, float maxdist=6000);
         ofPixels &getRgbPixels();
         ofFloatPixels &getRawDepthPixels();
+		ofShortPixels &getShortDepthPixels();	//loss of precision, consumes CPU power
 
 		static const int depth_w = ofProtonect::depth_w;
 		static const int depth_h = ofProtonect::depth_h;
@@ -61,6 +62,7 @@ class ofxKuKinectV2 : public ofThread{
         ofPixels rgbPix;
         ofPixels depthPix;
         ofFloatPixels rawDepthPixels;
+		ofShortPixels shortDepthPixels;
     
         bool bNewBuffer;
         bool bNewFrame;
