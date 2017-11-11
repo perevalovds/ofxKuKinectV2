@@ -275,7 +275,7 @@ vector<ofPoint> ofxKuKinectV2::getPointCloud(int area_x, int area_y, int area_w,
 			for (int y = area_y; y < area_y + area_h; y++) {
 				for (int x = area_x; x < area_x + area_w; x++) {
 					float z = rawDepthPixels[x + depth_w * y];
-					if (z >= area_dist0 && area_dist0 <= area_dist1) {
+					if (z >= area_dist0 && z <= area_dist1) {
 						ofVec3f p;
 						p.z = z;
 						p.x = (x - param.cx) * z / param.fx;
