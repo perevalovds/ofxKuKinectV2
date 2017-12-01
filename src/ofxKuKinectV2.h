@@ -54,6 +54,10 @@ class ofxKuKinectV2 : public ofThread{
 		vector<ofPoint> getPointCloud(int area_x = 0, int area_y = 0, int area_w = depth_w, int area_h = depth_h, float area_dist0 = -1, float area_dist1 = -1);
 		//area_dist0,1 filters points by distance, if area_dist0,1 < 0, then no distance control
 
+		//get points inside parallelepiped
+		vector<ofPoint> getPointCloudInsideVolume(ofPoint corner0, ofPoint corner1);
+
+
 		float fps() { return fps_; }
 
     protected:

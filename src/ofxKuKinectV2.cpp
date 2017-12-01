@@ -271,22 +271,61 @@ vector<ofPoint> ofxKuKinectV2::getPointCloud(int area_x, int area_y, int area_w,
 		}
 		else {
 			//distance filter
-			pnt.reserve(area_w * area_h);
+			pnt.resize(depth_w * depth_h);
+			int k = 0;
+			ofVec3f p;
 			for (int y = area_y; y < area_y + area_h; y++) {
 				for (int x = area_x; x < area_x + area_w; x++) {
 					float z = rawDepthPixels[x + depth_w * y];
 					if (z >= area_dist0 && z <= area_dist1) {
-						ofVec3f p;
 						p.z = z;
 						p.x = (x - param.cx) * z / param.fx;
 						p.y = -(y - param.cy) * z / param.fy;
-						pnt.push_back(p);
+						pnt[k++] = p;
 					}
 				}
 			}
+			pnt.resize(k);
 		}
 	}
 	return pnt;
 }
 
 
+//--------------------------------------------------------------------------------
+//get points inside parallelepiped
+vector<ofPoint> ofxKuKinectV2::getPointCloudInsideVolume(ofPoint corner0, ofPoint corner1) {
+	vector<ofPoint> pnt;
+	if (!bOpened) return pnt;
+
+	libfreenect2::Freenect2Device::IrCameraParams param = protonect.getIrCameraParams();
+	if (bOpened && rawDepthPixels.getWidth() == depth_w && rawDepthPixels.getHeight() == depth_h) {
+
+		//We optimize this function to achieve faster performance
+		//TODO: use undistorted ? (see getWorldCoordinateAt())
+
+		//distance filter
+		pnt.resize(depth_w * depth_h);
+		int k = 0;
+		ofVec3f p;
+		for (int y = 0; y < depth_h; y++) {
+			for (int x = 0; x < depth_w; x++) {
+				float z = rawDepthPixels[x + depth_w * y];
+				if (z >= corner0.z && z <= corner1.z) {
+					p.x = (x - param.cx) * z / param.fx;
+					if (p.x >= corner0.x && p.x <= corner1.x) {
+						p.y = -(y - param.cy) * z / param.fy;
+						if (p.y >= corner0.y && p.y <= corner1.y) {
+							p.z = z;
+							pnt[k++] = p;
+						}
+					}
+				}
+			}
+		}
+		pnt.resize(k);
+	}
+	return pnt;
+}
+
+//--------------------------------------------------------------------------------
