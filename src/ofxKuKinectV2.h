@@ -60,6 +60,11 @@ class ofxKuKinectV2 : public ofThread{
 
 		float fps() { return fps_; }
 
+		//use getIrCameraParams() for recalculating depth -> 3D cloud without kinect library,
+		//see formula in getWorldCoordinateAt()
+		void getIrCameraParams(float &cx, float &cy, float &fx, float &fy);
+
+
     protected:
         void threadedFunction();
 

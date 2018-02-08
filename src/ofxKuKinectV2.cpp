@@ -212,6 +212,23 @@ ofVec3f ofxKuKinectV2::getWorldCoordinateAt(int x, int y) {
 	return getWorldCoordinateAt(x, y, getDistanceAt(x, y));
 }
 
+
+//--------------------------------------------------------------------------------
+//use getIrCameraParams() for recalculating depth -> 3D cloud without kinect library,
+//see formula in getWorldCoordinateAt()
+void ofxKuKinectV2::getIrCameraParams(float &cx, float &cy, float &fx, float &fy) {
+	if (bOpened) {
+		libfreenect2::Freenect2Device::IrCameraParams p = protonect.getIrCameraParams();
+		cx = p.cx;
+		cy = p.cy;
+		fx = p.fx;
+		fy = p.fy;
+	}
+	else {
+		cx = cy = fx = fy = 0;
+	}
+}
+
 //--------------------------------------------------------------------------------
 //https://github.com/hanasaan/ofxMultiKinectV2
 ofVec3f ofxKuKinectV2::getWorldCoordinateAt(int x, int y, float z) {
