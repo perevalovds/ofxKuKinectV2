@@ -1,9 +1,11 @@
 //
 //  ofxKuKinectV2.cpp
 //
-//  Midified by Kuflex, 10/2017
+//  Addon for working with Kinect V2.
+//  Modified by Kuflex
 //	Original is created by Theodore Watson on 6/23/2014.
 //
+//  Note: in Windows it may be necessary to include this header AFTER some other headers to obtain success compilation
 
 
 #pragma once
