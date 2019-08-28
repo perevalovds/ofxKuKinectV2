@@ -47,7 +47,7 @@ That's all, now you could use addon and apps made using it.
 2. Copy a file from 'copy_to_bin' folder to 'bin' folder of your project.
 3. Open the project in Visual Studio IDE, and change  "Debug" to "Release", "Win32" to "x64" compiling options.
 
-Enjoy. For any questions contact us: kukuflex@gmail.com
+Enjoy. For any questions contact me: perevalovds@gmail.com
 
 ### TODO
 - FIX RGB decoder - now it works erroneously, so addon works only for point clouds.
