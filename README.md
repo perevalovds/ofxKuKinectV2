@@ -8,7 +8,7 @@ An Kuflex's openFrameworks addon for the Kinect V2 sensor.
 
 
 We made this addon to have addon tuned for our (Kuflex) purposes:
-- Easy install and work in Windows, openFrameworks 0.9.x, Visual Studio 2015
+- Easy install and work in Windows, openFrameworks 0.10.1, Visual Studio 2017
 - Allows to get point cloud
 - Uses OpenGL based decoding by default
 - Supports multiple kinects. 

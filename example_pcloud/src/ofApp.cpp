@@ -51,7 +51,9 @@ void ofApp::draw() {
 	cam.begin();
 	for (int d = 0; d < kinects.size(); d++) {
 		ofMesh mesh;
-		mesh.addVertices(pcloud[d]);
+		if (!pcloud[d].empty()) {
+			mesh.addVertices((glm::vec3 *)&pcloud[d][0].x, pcloud[d].size());
+		}
 		ofPushMatrix();
 		ofSetColor(255);
 		if (d == 0) ofSetColor(255, 255, 0);
