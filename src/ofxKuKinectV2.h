@@ -38,7 +38,7 @@ class ofxKuKinectV2 : public ofThread{
     
         bool isFrameNew();
     
-        ofPixels getDepthPixels(float mindist=500, float maxdist=6000);
+        ofPixels &getDepthPixels(float mindist=500, float maxdist=6000);
         ofPixels &getRgbPixels();
         ofFloatPixels &getRawDepthPixels();
 		ofShortPixels &getShortDepthPixels();	//loss of precision, consumes CPU power
@@ -53,11 +53,11 @@ class ofxKuKinectV2 : public ofThread{
 		ofVec3f getWorldCoordinateAt(int x, int y, float z);
 		void convertScreenToWorld(const vector<ofPoint> &pnt, vector<ofPoint> &pnt_world);
 
-		vector<ofPoint> getPointCloud(int area_x = 0, int area_y = 0, int area_w = depth_w, int area_h = depth_h, float area_dist0 = -1, float area_dist1 = -1);
+		const vector<ofPoint> &getPointCloud(int area_x = 0, int area_y = 0, int area_w = depth_w, int area_h = depth_h, float area_dist0 = -1, float area_dist1 = -1);
 		//area_dist0,1 filters points by distance, if area_dist0,1 < 0, then no distance control
 
 		//get points inside parallelepiped
-		vector<ofPoint> getPointCloudInsideVolume(ofPoint corner0, ofPoint corner1);
+		const vector<ofPoint> &getPointCloudInsideVolume(ofPoint corner0 = ofPoint(-10000,-10000,-10000), ofPoint corner1=ofPoint(10000,10000,10000));
 
 
 		float fps() { return fps_; }
@@ -74,6 +74,8 @@ class ofxKuKinectV2 : public ofThread{
         ofPixels depthPix;
         ofFloatPixels rawDepthPixels;
 		ofShortPixels shortDepthPixels;
+
+		vector<ofPoint> pnt;
     
         bool bNewBuffer;
         bool bNewFrame;

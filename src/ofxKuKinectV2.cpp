@@ -143,7 +143,7 @@ bool ofxKuKinectV2::isFrameNew(){
 }
 
 //--------------------------------------------------------------------------------
-ofPixels ofxKuKinectV2::getDepthPixels(float mindist, float maxdist){
+ofPixels &ofxKuKinectV2::getDepthPixels(float mindist, float maxdist){
 	if (rawDepthPixels.size() > 0) {
 		if (depthPix.getWidth() != rawDepthPixels.getWidth()) {
 			depthPix.allocate(rawDepthPixels.getWidth(), rawDepthPixels.getHeight(), 1);
@@ -262,8 +262,8 @@ void ofxKuKinectV2::convertScreenToWorld(const vector<ofPoint> &pnt, vector<ofPo
 }
 
 //--------------------------------------------------------------------------------
-vector<ofPoint> ofxKuKinectV2::getPointCloud(int area_x, int area_y, int area_w, int area_h, float area_dist0, float area_dist1) {
-	vector<ofPoint> pnt;
+const vector<ofPoint> &ofxKuKinectV2::getPointCloud(int area_x, int area_y, int area_w, int area_h, float area_dist0, float area_dist1) {
+	pnt.clear();
 	if (!bOpened) return pnt;
 
 	libfreenect2::Freenect2Device::IrCameraParams param = protonect.getIrCameraParams();
@@ -311,8 +311,8 @@ vector<ofPoint> ofxKuKinectV2::getPointCloud(int area_x, int area_y, int area_w,
 
 //--------------------------------------------------------------------------------
 //get points inside parallelepiped
-vector<ofPoint> ofxKuKinectV2::getPointCloudInsideVolume(ofPoint corner0, ofPoint corner1) {
-	vector<ofPoint> pnt;
+const vector<ofPoint> &ofxKuKinectV2::getPointCloudInsideVolume(ofPoint corner0, ofPoint corner1) {
+	pnt.clear();
 	if (!bOpened) return pnt;
 
 	libfreenect2::Freenect2Device::IrCameraParams param = protonect.getIrCameraParams();
