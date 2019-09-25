@@ -38,7 +38,7 @@ class ofxKuKinectV2 : public ofThread{
     
         bool isFrameNew();
     
-        ofPixels &getDepthPixels(float mindist=500, float maxdist=6000);
+        ofPixels &getDepthPixels(float mindist=500, float maxdist=6000, int mirror_x=0);
         ofPixels &getRgbPixels();
         ofFloatPixels &getRawDepthPixels();
 		ofShortPixels &getShortDepthPixels();	//loss of precision, consumes CPU power
@@ -57,7 +57,8 @@ class ofxKuKinectV2 : public ofThread{
 		//area_dist0,1 filters points by distance, if area_dist0,1 < 0, then no distance control
 
 		//get points inside parallelepiped
-		const vector<ofPoint> &getPointCloudInsideVolume(ofPoint corner0 = ofPoint(-10000,-10000,-10000), ofPoint corner1=ofPoint(10000,10000,10000));
+		const vector<ofPoint> &getPointCloudInsideVolume(ofPoint corner0 = ofPoint(-10000,-10000,-10000), ofPoint corner1=ofPoint(10000,10000,10000),
+			int mirror_x = 0, int mirror_y = 0);
 
 
 		float fps() { return fps_; }

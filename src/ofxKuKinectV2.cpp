@@ -143,7 +143,7 @@ bool ofxKuKinectV2::isFrameNew(){
 }
 
 //--------------------------------------------------------------------------------
-ofPixels &ofxKuKinectV2::getDepthPixels(float mindist, float maxdist){
+ofPixels &ofxKuKinectV2::getDepthPixels(float mindist, float maxdist, int mirror_x){
 	if (rawDepthPixels.size() > 0) {
 		if (depthPix.getWidth() != rawDepthPixels.getWidth()) {
 			depthPix.allocate(rawDepthPixels.getWidth(), rawDepthPixels.getHeight(), 1);
@@ -155,6 +155,18 @@ ofPixels &ofxKuKinectV2::getDepthPixels(float mindist, float maxdist){
 			pixels[i] = ofMap(rawDepthPixels[i], mindist, maxdist, 255, 0, true);
 			if (pixels[i] == 255) {
 				pixels[i] = 0;
+			}
+		}
+
+		//by default, image is mirrored
+		if (!mirror_x) {
+			int w = depthPix.getWidth();
+			int h = depthPix.getHeight();
+			int w1 = w - 1;
+			for (int y = 0; y < h; y++) {
+				for (int x = 0; x < w/2; x++) {
+					swap(pixels[x + w * y], pixels[w1 - x + w * y]);
+				}
 			}
 		}
 	}
@@ -311,7 +323,7 @@ const vector<ofPoint> &ofxKuKinectV2::getPointCloud(int area_x, int area_y, int 
 
 //--------------------------------------------------------------------------------
 //get points inside parallelepiped
-const vector<ofPoint> &ofxKuKinectV2::getPointCloudInsideVolume(ofPoint corner0, ofPoint corner1) {
+const vector<ofPoint> &ofxKuKinectV2::getPointCloudInsideVolume(ofPoint corner0, ofPoint corner1, int mirror_x, int mirror_y) {
 	pnt.clear();
 	if (!bOpened) return pnt;
 
@@ -321,6 +333,11 @@ const vector<ofPoint> &ofxKuKinectV2::getPointCloudInsideVolume(ofPoint corner0,
 		//We optimize this function to achieve faster performance
 		//TODO: use undistorted ? (see getWorldCoordinateAt())
 
+		float koef_fx = 1.0 / param.fx;
+		float koef_fy = 1.0 / param.fy;
+		if (mirror_x) koef_fx = -koef_fx;
+		if (mirror_y) koef_fy = -koef_fy;
+
 		//distance filter
 		pnt.resize(depth_w * depth_h);
 		int k = 0;
@@ -329,9 +346,9 @@ const vector<ofPoint> &ofxKuKinectV2::getPointCloudInsideVolume(ofPoint corner0,
 			for (int x = 0; x < depth_w; x++) {
 				float z = rawDepthPixels[x + depth_w * y];
 				if (z >= corner0.z && z <= corner1.z) {
-					p.x = (x - param.cx) * z / param.fx;
+					p.x = -(x - param.cx) * z * koef_fx;
 					if (p.x >= corner0.x && p.x <= corner1.x) {
-						p.y = -(y - param.cy) * z / param.fy;
+						p.y = -(y - param.cy) * z * koef_fy;
 						if (p.y >= corner0.y && p.y <= corner1.y) {
 							p.z = z;
 							pnt[k++] = p;
